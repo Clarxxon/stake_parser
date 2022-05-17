@@ -31,7 +31,8 @@ validators = [
 
 def process_request(t, link, net_name):
     parsed_json = requests.get(link).json()
-    coin_cost = float(cg.get_price(ids=net_name, vs_currencies='usd').get(net_name).get('usd'))
+    coin_cost = float(cg.get_price(
+        ids=net_name, vs_currencies='usd').get(net_name).get('usd'))
     bounded_tokens = {'net_name': net_name, 'staked tokens': str(float(parsed_json.get('result').get('tokens')) / 1000000),
                       'turnover': str(float(parsed_json.get('result').get('tokens')) / 1000000 * coin_cost)}
 
@@ -42,7 +43,8 @@ def process_request(t, link, net_name):
 def job():
     for validator in validators:
         try:
-            bound_tokens = process_request(10, validator['url'], validator['name'])
+            bound_tokens = process_request(
+                10, validator['url'], validator['name'])
             print(bound_tokens)
 
             i.labels(chain=validator['name']).info({
@@ -58,7 +60,7 @@ def job():
 
 if __name__ == '__main__':
     t = 10
-    start_http_server(8000)
+    start_http_server(9879)
     #cerberus_bounded_tokens = Info('my_inprogress_requests', 'cerberus')
     #ki_bounded_tokens = Info('my_inprogress_requests', 'ki')
     while True:
